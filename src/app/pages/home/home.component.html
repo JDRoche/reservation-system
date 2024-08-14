@@ -1,0 +1,38 @@
+<main class="flex items-center justify-center min-h-screen bg-gray-50">
+  <section class="text-center max-w-2xl mx-auto">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">
+      Bienvenido a nuestro Sistema de Reservas
+    </h1>
+    <p class="text-base text-gray-600 mb-8">
+      Aquí podrás gestionar tus reservas de manera fácil y rápida.
+    </p>
+    <div
+      class="grid gap-4 grid-cols-1 mx-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
+    >
+      <a
+        routerLink="/view-reservations"
+        class="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition"
+      >
+        Ver Todas las Reservas
+      </a>
+      <a
+        routerLink="/create-reservation"
+        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+      >
+        Realizar Nueva Reserva
+      </a>
+      <a
+        routerLink="/modify-reservation"
+        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+      >
+        Modificar Reserva Existente
+      </a>
+      <a
+        routerLink="/cancel-reservation"
+        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+      >
+        Cancelar Reserva
+      </a>
+    </div>
+  </section>
+</main>
