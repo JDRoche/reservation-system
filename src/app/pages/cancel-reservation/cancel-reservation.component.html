@@ -24,10 +24,7 @@
           <strong>Fecha de la Reserva:</strong>
           {{ reservation.reservationDate | date : "medium" }}
         </li>
-        <li>
-          <strong>Usuario:</strong> {{ reservation.user.firstName }}
-          {{ reservation.user.lastName }}
-        </li>
+        <li><strong>Usuario:</strong> {{ reservation.user.email }}</li>
         <li>
           <strong>Habitaciones:</strong>
           <ul class="list-disc pl-5 mt-1">

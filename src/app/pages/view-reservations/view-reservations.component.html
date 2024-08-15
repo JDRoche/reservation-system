@@ -45,8 +45,9 @@
         <span class="text-gray-700">Usuario</span>
         <input
           type="text"
-          [(ngModel)]="filters.userId"
-          name="userName"
+          [(ngModel)]="filters.userEmail"
+          name="userEmail"
+          placeholder="Email del usuario"
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         />
       </label>
@@ -82,10 +83,11 @@
     <table class="min-w-full bg-white border border-gray-200 rounded">
       <thead>
         <tr class="bg-gray-100">
+          <th class="text-left p-3">ID</th>
           <th class="text-left p-3">Fecha de Reserva</th>
           <th class="text-left p-3 hidden lg:table-cell">Fecha de Creación</th>
           <th class="text-left p-3">Usuario</th>
-          <th class="text-left p-3">Tipo de Habitación</th>
+          <th class="text-left p-3">Habitaciones</th>
           <th class="text-left p-3">Precio</th>
           <th class="text-left p-3">Acciones</th>
         </tr>
@@ -94,16 +96,19 @@
         @for (reservation of reservations; track $index) {
         <tr class="border-t border-gray-200">
           <td class="p-3">
+            {{ reservation.id }}
+          </td>
+          <td class="p-3">
             {{ reservation.reservationDate | date : "medium" }}
           </td>
           <td class="p-3 hidden lg:table-cell">
             {{ reservation.bookingDate | date : "medium" }}
           </td>
           <td class="p-3">
-            {{ reservation.user.firstName }} {{ reservation.user.lastName }}
+            {{ reservation.user.email }}
           </td>
-          <td class="p-3">{{ reservation.rooms[0].type }}</td>
-          <td class="p-3">{{ reservation.rooms[0].price | currency }}</td>
+          <td class="p-3">{{ getRooms(reservation.rooms) }}</td>
+          <td class="p-3">{{ getTotalPrice(reservation.rooms) | currency }}</td>
           <td class="p-3 flex space-x-2">
             <button
               (click)="navigateToEditReservation(reservation.id)"

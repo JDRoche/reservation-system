@@ -1,6 +1,6 @@
 export interface ReservationPayload {
     bookingDate: string;
     reservationDate: string;
-    userId: number;
+    userEmail: number;
     roomIds: number[];
 }

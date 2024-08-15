@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReservationService } from '../../services/reservation/reservation.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-reservation',
@@ -11,23 +12,29 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './new-reservation.component.css'
 })
 export class NewReservationComponent {
-  selectedRooms: string[] = [];
   reservationForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private reservationService: ReservationService, private toastr: ToastrService,) {
+  constructor(
+    private fb: FormBuilder,
+    private reservationService: ReservationService,
+    private router: Router,
+    private toastr: ToastrService,
+  ) {
     this.reservationForm = this.fb.group({
       reservationDate: [null, Validators.required],
-      userId: [null, Validators.required],
-      roomIds: [null, Validators.required],
+      userEmail: [null, Validators.required],
+      newRoom: [''],
+      roomIds: this.fb.array([]),
     });
   }
 
   onSubmit(): void {
     if (this.reservationForm.valid) {
       const formData = this.reservationForm.value;
-      this.reservationService.createReservation({ ...formData, roomIds: this.selectedRooms }).subscribe({
+      this.reservationService.createReservation({ ...formData }).subscribe({
         next: response => {
-          this.toastr.info('Reserva creada exitosamente!');
+          this.toastr.success('Reserva creada exitosamente!');
+          this.router.navigate(['/view-reservations']);
         },
         error: error => {
           this.toastr.error('Error al crear la reserva.');
@@ -35,13 +42,26 @@ export class NewReservationComponent {
       }
       );
     } else {
-      this.toastr.warning('Por favor, complete todos los campos obligatorios.');
+      this.toastr.warning('Por favor, complete todos los campos.');
     }
   }
 
-  addRoom(roomId: string): void {
-    if (!this.selectedRooms.includes(roomId)) {
-      this.selectedRooms.push(roomId);
+  addRoom(): void {
+    const roomControl = this.reservationForm.get('newRoom');
+    const roomValue = roomControl?.value;
+    if (roomValue && !this.reservationForm.get('roomIds')?.value.includes(roomValue)) {
+      const roomsArray = this.reservationForm.get('roomIds') as FormArray;
+      roomsArray.push(this.fb.control(roomValue));
+      roomControl?.reset();
     }
+  }
+
+  removeRoom(index: number): void {
+    const roomsArray = this.reservationForm.get('roomIds') as FormArray;
+    roomsArray.removeAt(index);
+  }
+
+  cancelCreation() {
+    this.router.navigate(['/view-reservations']);
   }
 }

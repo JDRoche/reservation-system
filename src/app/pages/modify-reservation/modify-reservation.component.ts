@@ -26,7 +26,7 @@ export class ModifyReservationComponent implements OnInit {
     this.reservationForm = this.fb.group({
       id: [''],
       reservationDate: ['', Validators.required],
-      userId: ['', Validators.required],
+      userEmail: ['', Validators.required],
       newRoom: [''],
       roomIds: this.fb.array([]),
     });
@@ -47,7 +47,7 @@ export class ModifyReservationComponent implements OnInit {
         this.reservationForm.patchValue({
           id: reservation.data.id,
           reservationDate: reservation.data.reservationDate,
-          userId: reservation.data.user.id,
+          userEmail: reservation.data.user.email,
         });
 
         const roomsArray = this.reservationForm.get('roomIds') as FormArray;

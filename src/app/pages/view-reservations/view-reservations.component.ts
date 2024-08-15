@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Reservation } from '../../models/Reservation';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { Room } from '../../models/Room';
 
 @Component({
   selector: 'app-view-reservations',
@@ -19,7 +20,7 @@ export class ViewReservationsComponent implements OnInit {
     startDate: '',
     endDate: '',
     roomType: '',
-    userId: 0
+    userEmail: ''
   }
 
 
@@ -59,9 +60,17 @@ export class ViewReservationsComponent implements OnInit {
       startDate: '',
       endDate: '',
       roomType: '',
-      userId: 0
+      userEmail: ''
     }
     this.filterReservations();
+  }
+
+  getRooms(rooms: Room[]): string {
+    return rooms.map(room => `${room.roomNumber} - ${room.type}`).join(', ');
+  }
+
+  getTotalPrice(rooms: Room[]): number {
+    return rooms.reduce((total, room) => total + room.price, 0);
   }
 
 }

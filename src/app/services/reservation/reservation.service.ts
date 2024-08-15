@@ -16,7 +16,7 @@ export class ReservationService {
   constructor(private http: HttpClient) { }
 
   // Get all reservations with optional filters
-  getReservations(params?: { startDate?: string, endDate?: string, roomType?: string, userId?: number }): Observable<ReservationApiResponse<Reservation[]>> {
+  getReservations(params?: { startDate?: string, endDate?: string, roomType?: string, userEmail?: string }): Observable<ReservationApiResponse<Reservation[]>> {
     let httpParams = new HttpParams();
 
     if (params?.startDate) {
@@ -28,8 +28,8 @@ export class ReservationService {
     if (params?.roomType) {
       httpParams = httpParams.set('roomType', params.roomType);
     }
-    if (params?.userId) {
-      httpParams = httpParams.set('userId', params.userId.toString());
+    if (params?.userEmail) {
+      httpParams = httpParams.set('userEmail', params.userEmail);
     }
 
     return this.http.get<ReservationApiResponse<Reservation[]>>(this.apiUrl, { params: httpParams });
