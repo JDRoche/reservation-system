@@ -1,1 +1,116 @@
-<p>modify-reservation works!</p>
+<article class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <header class="mb-6 border-b pb-4">
+    <h1 class="text-2xl font-bold text-gray-800">Editar Reserva</h1>
+  </header>
+
+  <section>
+    <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+      <!-- ID de la Reserva -->
+      <section class="mb-6">
+        <label
+          for="reservationId"
+          class="block text-sm font-medium text-gray-700"
+          >ID de la Reserva</label
+        >
+        <div class="flex items-center mt-2">
+          <input
+            type="text"
+            id="reservationId"
+            formControlName="id"
+            class="flex-1 py-2 px-4 border border-gray-300 rounded-l-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            [readonly]="!!reservationId"
+            placeholder="Ingresa el ID de la reserva"
+          />
+          @if (!reservationId) {
+          <button
+            type="button"
+            (click)="searchById()"
+            class="py-2 px-4 border border-transparent rounded-r-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Buscar
+          </button>
+          }
+        </div>
+      </section>
+
+      <!-- Campos de Edición -->
+
+      @if (reservationForm.get('userId')?.value && !reservationNotFound) {
+      <section>
+        <div class="mb-6">
+          <label
+            for="reservationDate"
+            class="block text-sm font-medium text-gray-700"
+            >Fecha de la Reservación</label
+          >
+          <input
+            type="datetime-local"
+            id="reservationDate"
+            formControlName="reservationDate"
+            class="mt-2 py-2 px-4 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
+        </div>
+
+        <!-- Lista de Habitaciones -->
+        <div class="mb-6">
+          <label for="rooms" class="block text-sm font-medium text-gray-700"
+            >Habitaciones</label
+          >
+          <div class="mt-2 flex items-center space-x-4">
+            <input
+              type="text"
+              formControlName="newRoom"
+              placeholder="Añadir habitación"
+              class="py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+            <button
+              type="button"
+              (click)="addRoom()"
+              class="py-2 px-4 text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 rounded-md"
+            >
+              Agregar
+            </button>
+          </div>
+          <ul class="mt-2 space-y-2">
+            @for (room of reservationForm.get('roomIds')?.value; track room) {
+            <li
+              class="flex items-center justify-between py-2 px-4 bg-gray-100 rounded-md"
+            >
+              <span>{{ room }}</span>
+              <button
+                type="button"
+                (click)="removeRoom($index)"
+                class="text-sm font-medium text-red-600 hover:text-red-800"
+              >
+                Eliminar
+              </button>
+            </li>
+            }
+          </ul>
+        </div>
+      </section>
+      } @if (reservationNotFound) {
+      <section class="text-red-500 mb-6">
+        <p>Reserva no encontrada. Intenta con otro ID.</p>
+      </section>
+      }
+
+      <footer class="flex justify-end space-x-4">
+        <button
+          type="button"
+          (click)="clearForm()"
+          class="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-green-400"
+          [disabled]="!reservationForm.valid"
+        >
+          Guardar Cambios
+        </button>
+      </footer>
+    </form>
+  </section>
+</article>

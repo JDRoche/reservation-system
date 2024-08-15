@@ -47,8 +47,8 @@ export class ViewReservationsComponent implements OnInit {
   navigateToDeleteReservation(id: number) {
     this.router.navigate(['/cancel-reservation', id]);
   }
-  navigateToEditReservation(arg0: number) {
-    this.router.navigate(['/modify-reservation']);
+  navigateToEditReservation(id: number) {
+    this.router.navigate(['/modify-reservation', id]);
   }
   navigateToCreateReservation() {
     this.router.navigate(['/create-reservation']);
