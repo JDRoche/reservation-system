@@ -1,1 +1,83 @@
-<p>cancel-reservation works!</p>
+<article class="container mx-auto p-4">
+  <header class="mb-4">
+    <h1 class="text-2xl font-semibold">Eliminar Reserva</h1>
+  </header>
+
+  @if (reservation) {
+  <section>
+    <header class="mb-4">
+      <h2 class="text-xl font-medium text-red-600">Confirmar Eliminación</h2>
+      <p class="text-sm text-gray-600">
+        ¿Estás seguro de que deseas eliminar esta reserva?
+      </p>
+    </header>
+
+    <section class="mb-6">
+      <h3 class="text-lg font-medium text-gray-700">Detalles de la Reserva</h3>
+      <ul class="list-disc pl-5 mt-2">
+        <li><strong>ID:</strong> {{ reservation?.id }}</li>
+        <li>
+          <strong>Fecha de Reserva:</strong>
+          {{ reservation.bookingDate | date : "medium" }}
+        </li>
+        <li>
+          <strong>Fecha de la Reserva:</strong>
+          {{ reservation.reservationDate | date : "medium" }}
+        </li>
+        <li>
+          <strong>Usuario:</strong> {{ reservation.user.firstName }}
+          {{ reservation.user.lastName }}
+        </li>
+        <li>
+          <strong>Habitaciones:</strong>
+          <ul class="list-disc pl-5 mt-1">
+            @for (room of reservation.rooms; track $index) {
+            <li>{{ room.roomNumber }} - {{ room.type }}</li>
+            }
+          </ul>
+        </li>
+        <li><strong>Total Precio:</strong> ${{ totalPrice }}</li>
+      </ul>
+    </section>
+
+    <footer class="flex justify-between">
+      <button
+        (click)="cancel()"
+        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+      >
+        Cancelar
+      </button>
+      <button
+        (click)="confirmDelete()"
+        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+      >
+        Confirmar Eliminación
+      </button>
+    </footer>
+  </section>
+  } @if (!reservation) {
+  <section class="mt-4">
+    <header class="mb-2">
+      <h2 class="text-lg font-medium text-gray-700">Seleccionar Reserva</h2>
+    </header>
+    <div class="flex items-center">
+      <label for="reservationId" class="mr-2 text-sm font-medium text-gray-700"
+        >ID de la Reserva:</label
+      >
+      <input
+        id="reservationId"
+        [(ngModel)]="selectedReservationId"
+        type="number"
+        placeholder="Ingrese el ID"
+        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+      <button
+        (click)="loadReservation()"
+        class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Cargar
+      </button>
+    </div>
+  </section>
+  }
+</article>

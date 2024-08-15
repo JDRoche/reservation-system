@@ -10,6 +10,7 @@ export const routes: Routes = [
     { path: 'view-reservations', component: ViewReservationsComponent },
     { path: 'create-reservation', component: NewReservationComponent },
     { path: 'modify-reservation', component: ModifyReservationComponent },
+    { path: 'cancel-reservation/:id', component: CancelReservationComponent },
     { path: 'cancel-reservation', component: CancelReservationComponent },
     { path: '**', redirectTo: '' }
 ];
