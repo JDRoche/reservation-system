@@ -15,7 +15,7 @@
     <section class="mb-6">
       <h3 class="text-lg font-medium text-gray-700">Detalles de la Reserva</h3>
       <ul class="list-disc pl-5 mt-2">
-        <li><strong>ID:</strong> {{ reservation?.id }}</li>
+        <li><strong>ID:</strong> {{ reservation.id }}</li>
         <li>
           <strong>Fecha de Reserva:</strong>
           {{ reservation.bookingDate | date : "medium" }}
@@ -76,6 +76,12 @@
         class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
         Cargar
+      </button>
+      <button
+        (click)="cancel()"
+        class="inline-flex justify-center ml-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+      >
+        Cancelar
       </button>
     </div>
   </section>

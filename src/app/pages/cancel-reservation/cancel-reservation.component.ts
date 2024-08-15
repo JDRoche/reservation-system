@@ -17,6 +17,7 @@ export class CancelReservationComponent {
   reservation: Reservation | null = null;
   selectedReservationId: number | null = null;
   totalPrice: number = 0;
+  id: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,9 +28,9 @@ export class CancelReservationComponent {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const id = Number(params.get('id'));
-      if (id) {
-        this.loadReservationById(id);
+      this.id = Number(params.get('id'));
+      if (this.id) {
+        this.loadReservationById(this.id);
       }
     });
   }
@@ -47,7 +48,7 @@ export class CancelReservationComponent {
         this.calculateTotalPrice();
       },
       error: err => {
-        this.toastr.error('Error al obtener la reserva.');
+        this.toastr.info('No se pudo obtener la reserva.');
       }
     }
     );
@@ -60,14 +61,27 @@ export class CancelReservationComponent {
   }
 
   cancel(): void {
-    this.router.navigate(['/reservations']);
+    if (this.id) {
+      this.router.navigate(['/view-reservations']);
+    } else if (!this.selectedReservationId) {
+      this.router.navigate(['/']);
+    } else {
+      this.reservation = null;
+      this.selectedReservationId = null;
+      this.router.navigate(['/cancel-reservation']);
+    }
+
   }
 
   confirmDelete(): void {
     if (this.reservation) {
       this.reservationService.cancelReservation(this.reservation.id).subscribe(() => {
-        this.toastr.info('Reserva cancelada con exito.');
-        this.router.navigate(['/reservations']);
+        this.toastr.success('Reserva cancelada con exito.');
+        if (this.id) {
+          this.router.navigate(['/view-reservations']);
+        } else {
+          this.router.navigate(['/']);
+        }
       });
     }
   }
