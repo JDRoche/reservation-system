@@ -1,4 +1,4 @@
-interface ReservationPayload {
+export interface ReservationPayload {
     bookingDate: string;
     reservationDate: string;
     userId: number;
