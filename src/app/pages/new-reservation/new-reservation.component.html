@@ -1,1 +1,72 @@
-<p>new-reservation works!</p>
+<div class="max-w-2xl mx-auto p-4">
+  <h1 class="text-2xl font-semibold text-gray-900 mb-6">
+    Realizar Nueva Reserva
+  </h1>
+
+  <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div>
+      <label
+        for="reservationDate"
+        class="block text-sm font-medium text-gray-700"
+        >Fecha de Reserva</label
+      >
+      <input
+        id="reservationDate"
+        formControlName="reservationDate"
+        type="datetime-local"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      />
+    </div>
+
+    <div>
+      <label for="userId" class="block text-sm font-medium text-gray-700"
+        >ID del Usuario</label
+      >
+      <input
+        id="userId"
+        formControlName="userId"
+        type="number"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="rooms" class="block text-sm font-medium text-gray-700"
+        >Habitaciones</label
+      >
+      <input
+        id="rooms"
+        #roomInput
+        formControlName="roomIds"
+        type="text"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+      <button
+        type="button"
+        (click)="addRoom(roomInput.value)"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Añadir
+      </button>
+      @if (selectedRooms.length > 0) {
+      <div class="mt-2">
+        <h4 class="text-sm font-medium text-gray-700">
+          Habitaciones Seleccionadas:
+        </h4>
+        <ul class="list-disc pl-5">
+          @for (room of selectedRooms; track $index) {
+          <li>{{ room }}</li>
+          }
+        </ul>
+      </div>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+    >
+      Crear Reserva
+    </button>
+  </form>
+</div>

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environments';
+import { environment } from '../../../environments/environments';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ReservationResponse } from '../models/ReservationResponse ';
-import { ReservationPayload } from '../models/ReservationPayload';
+import { ReservationResponse } from '../../models/ReservationResponse ';
+import { ReservationPayload } from '../../models/ReservationPayload';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,11 @@ export class ReservationService {
     }
 
     return this.http.get<ReservationResponse>(this.apiUrl, { params: httpParams });
+  }
+
+  // Get a reservation by Id
+  getReservationById(id: number): Observable<ReservationResponse> {
+    return this.http.get<ReservationResponse>(`${this.apiUrl}/${id}`);
   }
 
   // Create a new reservation

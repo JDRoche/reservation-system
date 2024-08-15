@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReservationService } from '../../services/reservation.service';
+import { ReservationService } from '../../services/reservation/reservation.service';
 import { FormsModule } from '@angular/forms';
 import { Reservation } from '../../models/Reservation';
 import { CurrencyPipe, DatePipe } from '@angular/common';
