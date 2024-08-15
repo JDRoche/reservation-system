@@ -1,6 +1,4 @@
-import { Reservation } from "./Reservation";
-
-export interface ReservationResponse<T> {
+export interface ReservationApiResponse<T> {
     success: boolean;
     message: string;
     statusCode: number;
