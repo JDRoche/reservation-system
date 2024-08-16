@@ -127,5 +127,11 @@
         }
       </tbody>
     </table>
+    <!-- Mensaje cuando no hay reservas -->
+    @if (reservations.length === 0) {
+    <p class="text-gray-500 mt-4 text-center">
+      No se encontraron reservas para los criterios seleccionados.
+    </p>
+    }
   </article>
 </section>

@@ -32,34 +32,56 @@
     </div>
 
     <!-- Lista de Habitaciones -->
-    <div class="mb-6">
-      <label for="rooms" class="block text-sm font-medium text-gray-700"
-        >Habitaciones</label
+    <div class="mb-4 relative">
+      <label for="rooms" class="block mb-1 font-medium">Habitaciones</label>
+      <input
+        id="rooms"
+        type="text"
+        formControlName="newRoom"
+        placeholder="Buscar habitaciones..."
+        (focus)="isRoomListVisible = true"
+        (blur)="isRoomListVisible = false"
+        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      @if (isRoomListVisible && filteredRooms.length > 0) {
+      <ul
+        class="absolute z-10 bg-white border border-gray-200 rounded w-full mt-1 max-h-40 overflow-y-auto shadow-lg"
       >
-      <div class="mt-2 flex items-center space-x-4">
-        <input
-          type="text"
-          formControlName="newRoom"
-          placeholder="Añadir habitación"
-          class="py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
-        <button
-          type="button"
-          (click)="addRoom()"
-          class="py-2 px-4 text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 rounded-md"
+        @for (room of filteredRooms; track $index) {
+        <li
+          (mousedown)="addRoom(room)"
+          class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
         >
-          Agregar
-        </button>
-      </div>
+          Número: {{ room.roomNumber }} - Tipo: {{ room.type }} - Precio: ${{
+            room.price
+          }}
+        </li>
+        }
+      </ul>
+      } @if (isRoomListVisible && filteredRooms.length === 0) {
+      <p
+        class="absolute z-10 bg-white border border-gray-200 rounded w-full mt-1 p-2 text-gray-500 shadow-lg"
+      >
+        No hay habitaciones disponibles para los criterios seleccionados.
+      </p>
+      }
+    </div>
+
+    @if (selectedRooms.length > 0) {
+    <div class="mb-4">
+      <h3 class="font-medium mb-2">Habitaciones seleccionadas:</h3>
       <ul class="mt-2 space-y-2">
-        @for (room of reservationForm.get('roomIds')?.value; track room) {
+        @for (room of selectedRooms; track $index) {
         <li
           class="flex items-center justify-between py-2 px-4 bg-gray-100 rounded-md"
         >
-          <span>{{ room }}</span>
+          Número: {{ room.roomNumber }} - Tipo: {{ room.type }} - Precio: ${{
+            room.price
+          }}
           <button
+            (click)="removeRoom(room)"
             type="button"
-            (click)="removeRoom($index)"
             class="text-sm font-medium text-red-600 hover:text-red-800"
           >
             Eliminar
@@ -68,6 +90,7 @@
         }
       </ul>
     </div>
+    }
 
     <footer class="flex justify-end space-x-4">
       <button
