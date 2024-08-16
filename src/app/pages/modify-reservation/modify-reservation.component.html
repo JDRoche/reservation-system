@@ -1,0 +1,137 @@
+<article class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <header class="mb-6 border-b pb-4">
+    <h1 class="text-2xl font-bold text-gray-800">Editar Reserva</h1>
+  </header>
+
+  <section>
+    <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+      <!-- ID de la Reserva -->
+      <section class="mb-6">
+        <label
+          for="reservationId"
+          class="block text-sm font-medium text-gray-700"
+          >ID de la Reserva</label
+        >
+        <div class="flex items-center mt-2">
+          <input
+            type="text"
+            id="reservationId"
+            formControlName="id"
+            class="flex-1 py-2 px-4 border border-gray-300 rounded-l-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            [readonly]="!!reservationId"
+            placeholder="Ingresa el ID de la reserva"
+          />
+          @if (!reservationId) {
+          <button
+            type="button"
+            (click)="searchById()"
+            class="py-2 px-4 border border-transparent rounded-r-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Buscar
+          </button>
+          }
+        </div>
+      </section>
+
+      <!-- Campos de Edición -->
+
+      @if (reservationForm.get('userEmail')?.value && !reservationNotFound) {
+      <section>
+        <div class="mb-6">
+          <label
+            for="reservationDate"
+            class="block text-sm font-medium text-gray-700"
+            >Fecha de la Reservación</label
+          >
+          <input
+            type="datetime-local"
+            id="reservationDate"
+            formControlName="reservationDate"
+            class="mt-2 py-2 px-4 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
+        </div>
+
+        <!-- Lista de Habitaciones -->
+        <div class="mb-4 relative">
+          <label for="rooms" class="block mb-1 font-medium">Habitaciones</label>
+          <input
+            id="rooms"
+            type="text"
+            formControlName="newRoom"
+            placeholder="Buscar habitaciones..."
+            (focus)="isRoomListVisible = true"
+            (blur)="isRoomListVisible = false"
+            class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          @if (isRoomListVisible && filteredRooms.length > 0) {
+          <ul
+            class="absolute z-10 bg-white border border-gray-200 rounded w-full mt-1 max-h-40 overflow-y-auto shadow-lg"
+          >
+            @for (room of filteredRooms; track $index) {
+            <li
+              (mousedown)="addRoom(room)"
+              class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            >
+              Número: {{ room.roomNumber }} - Tipo: {{ room.type }} - Precio:
+              ${{ room.price }}
+            </li>
+            }
+          </ul>
+          } @if (isRoomListVisible && filteredRooms.length === 0) {
+          <p
+            class="absolute z-10 bg-white border border-gray-200 rounded w-full mt-1 p-2 text-gray-500 shadow-lg"
+          >
+            No hay habitaciones disponibles para los criterios seleccionados.
+          </p>
+          }
+        </div>
+
+        @if (selectedRooms.length > 0) {
+        <div class="mb-4">
+          <h3 class="font-medium mb-2">Habitaciones seleccionadas:</h3>
+          <ul class="mt-2 space-y-2">
+            @for (room of selectedRooms; track $index) {
+            <li
+              class="flex items-center justify-between py-2 px-4 bg-gray-100 rounded-md"
+            >
+              Número: {{ room.roomNumber }} - Tipo: {{ room.type }} - Precio:
+              ${{ room.price }}
+              <button
+                (click)="removeRoom(room)"
+                type="button"
+                class="text-sm font-medium text-red-600 hover:text-red-800"
+              >
+                Eliminar
+              </button>
+            </li>
+            }
+          </ul>
+        </div>
+        }
+      </section>
+      } @if (reservationNotFound) {
+      <section class="text-red-500 mb-6">
+        <p>Reserva no encontrada. Intenta con otro ID.</p>
+      </section>
+      }
+
+      <footer class="flex justify-end space-x-4">
+        <button
+          type="button"
+          (click)="clearForm()"
+          class="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-green-400"
+          [disabled]="!reservationForm.valid"
+        >
+          Guardar Cambios
+        </button>
+      </footer>
+    </form>
+  </section>
+</article>

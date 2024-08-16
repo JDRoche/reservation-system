@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+  ul {
+    position: absolute;
+    top: 14%; /* Position the menu right below the header */
+    left: 0;
+    background-color: #1e3a8a; /* Matching the header background color */
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */
+    z-index: 50; /* Ensure the menu is on top of other elements */
+  }
+}
